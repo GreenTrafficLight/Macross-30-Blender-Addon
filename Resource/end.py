@@ -2,7 +2,9 @@ from ..Utilities import *
 
 class END:
     """
-    END of file
+    END Informations\n
+    Contains :
+    - End of file
     """
 
     def __init__(self, br):
