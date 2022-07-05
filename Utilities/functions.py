@@ -1,3 +1,5 @@
+from mathutils import *
+
 def StripToTriangle(triangleStripList, windingOrder="abc"):
     faces = []
     cte = 0
@@ -38,11 +40,8 @@ def ConvertNormal_S10S11S11(integer):
 
     normal = []
     
-    normal.append(((integer & 0x3FF) - 512) / 511)
-    integer >>= 10
-    normal.append(((integer & 0x3FF) - 512) / 511)
-    integer >>= 11
-    normal.append(((integer & 0x3FF) - 512) / 511)
-    integer >>= 11
+    normal.append(integer & 0x3FF)
+    normal.append((integer >> 10) & 0x3FF)
+    normal.append((integer >> 20) & 0x3FF)
     
-    return normal
+    return Vector(((normal[0] - 512) / 511, (normal[1] - 1024) / 1023, (normal[2] - 1024) / 1023)).normalized()
