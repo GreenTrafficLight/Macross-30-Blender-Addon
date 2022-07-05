@@ -103,6 +103,7 @@ def build_mdl(mdl, filepath):
 
         vertexList = {}
         facesList = []
+        normals = []
 
         last_vertex_count = 0
 
@@ -114,6 +115,10 @@ def build_mdl(mdl, filepath):
             # Set vertices
             for j in range(len(gmpt.vertex_buffer["Positions"])):
                 vertex = bm.verts.new(gmpt.vertex_buffer["Positions"][j])
+
+                if "Normals" in gmpt.vertex_buffer:
+                    vertex.normal = gmpt.vertex_buffer["Normals"][j]
+                    normals.append(gmpt.vertex_buffer["Normals"][j])
                             
                 vertex.index = last_vertex_count + j
 
@@ -180,6 +185,13 @@ def build_mdl(mdl, filepath):
 
             bm.to_mesh(mesh)
             bm.free()            
+
+
+            # Set normals
+            mesh.use_auto_smooth = True
+
+            if normals != []:
+                mesh.normals_split_custom_set_from_vertices(normals)
 
             # Set material
             material = bpy.data.materials.get(mtrl.name)
