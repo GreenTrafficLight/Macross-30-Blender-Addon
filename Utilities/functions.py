@@ -36,12 +36,36 @@ def ToTriangle(triangleList):
         faces.append([a,b,c])
     return faces
 
+def sign_ten_bit(Input):
+    if Input < 0x200: 
+        return Input
+    else: 
+        return Input - 0x400
+
+def sign_eleven_bit(Input):
+    if Input < 0x400: 
+        return Input
+    else: 
+        return Input - 0x800
+
 def ConvertNormal_S10S11S11(integer):
 
     normal = []
     
-    normal.append(integer & 0x3FF)
-    normal.append((integer >> 10) & 0x3FF)
-    normal.append((integer >> 20) & 0x3FF)
-    
-    return Vector(((normal[2]) / 1024, (normal[1]) / 1024, (normal[0]) / 512)).normalized()
+    """
+    normal.append(sign_ten_bit(integer & 0x3FF))
+    normal.append(sign_eleven_bit((integer >> 11) & 0x7FF))
+    normal.append(sign_eleven_bit((integer >> 22) & 0x7FF))
+    test1 = Vector(((normal[2]) / 1023, (normal[1]) / 1023, (normal[0]) / 511)).normalized()
+    """
+
+    element = integer & 0x3FF
+    normal.append(element / 511)
+    element = (integer >> 10) & 0x7FF
+    normal.append(element / 1023)
+    element = (integer >> 21) & 0x7FF
+    normal.append(element / 1023)
+
+    test1 = Vector((normal[2], normal[1], normal[0])).normalized()
+
+    return test1
