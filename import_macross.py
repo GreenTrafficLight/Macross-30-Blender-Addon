@@ -69,12 +69,11 @@ def build_mdl_armature(mdl, file_name):
 
         if fram.name != "":
 
-            bpy.ops.object.empty_add(type='PLAIN_AXES', location = fram.translation, rotation = fram.quaternion.to_euler(), scale = fram.scale)
-            empty = bpy.context.active_object
-            empty.empty_display_size = 0.1
-            empty.name = fram.name
+            empty = add_empty(fram.name, empty_location = fram.translation, empty_rotation = fram.quaternion.to_euler(), empty_scale = fram.scale)
             empty.pass_index = fram.index
-            empty.scale = fram.scale
+
+            if fram.parent_index == 0:
+                empty.rotation_euler = ( radians(90), 0, 0 )
 
             if fram.parent_index != -1 and fram.parent_index != 0:
                 empty.parent = bpy.context.scene.objects[fram.parent_index]
@@ -89,8 +88,6 @@ def build_mdl(mdl, filepath):
 
         mesh = bpy.data.meshes.new(gm2.name)
         obj = bpy.data.objects.new(gm2.name, mesh)
-
-        obj.rotation_euler = ( radians(90), 0, radians(180) )
 
         parent = bpy.context.scene.objects[fram.name]
 

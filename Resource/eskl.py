@@ -93,9 +93,9 @@ class ESKL:
             for i in range(count):
 
                 quaternion = (br.readFloat(), br.readFloat(), br.readFloat(), br.readFloat())
-                frah.fram_list[i].quaternion = Quaternion((quaternion[3], -quaternion[0], quaternion[2], quaternion[1]))
+                frah.fram_list[i].quaternion = Quaternion((quaternion[3], quaternion[0], quaternion[1], quaternion[2]))
                 translation = (br.readFloat(), br.readFloat(), br.readFloat())
-                frah.fram_list[i].translation = Vector((-translation[0], translation[2], translation[1]))
+                frah.fram_list[i].translation = Vector((translation[0], translation[1], translation[2]))
                 br.readBytes(4)
                 scale = (br.readFloat(), br.readFloat(), br.readFloat())
                 frah.fram_list[i].scale = Vector((scale[0], scale[2], scale[1]))

@@ -44,4 +44,4 @@ def ConvertNormal_S10S11S11(integer):
     normal.append((integer >> 10) & 0x3FF)
     normal.append((integer >> 20) & 0x3FF)
     
-    return Vector(((normal[0] - 512) / 511, (normal[1] - 1024) / 1023, (normal[2] - 1024) / 1023)).normalized()
+    return Vector(((normal[2]) / 1024, (normal[1]) / 1024, (normal[0]) / 512)).normalized()
