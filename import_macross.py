@@ -185,10 +185,10 @@ def build_mdl(mdl, filepath):
 
 
             # Set normals
-            mesh.use_auto_smooth = True
+            #mesh.use_auto_smooth = True
 
-            if normals != []:
-                mesh.normals_split_custom_set_from_vertices(normals)
+            #if normals != []:
+                #mesh.normals_split_custom_set_from_vertices(normals)
 
             # Set material
             material = bpy.data.materials.get(mtrl.name)

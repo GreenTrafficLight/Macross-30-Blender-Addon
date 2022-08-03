@@ -84,7 +84,9 @@ class GMH2:
                     "TexCoords_3" : [],
                     "TexCoords_4" : [],
                     "TexCoords_5" : [],
-                    "TexCoords_6" : []
+                    "TexCoords_6" : [],
+                    "Unknown" : [],
+                    "Unknown2" : []
                     }
 
                 self.has_texCoords = False
@@ -191,7 +193,7 @@ class GMH2:
                     if vertex_type == 0x303:
 
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
-                        br.readBytes(4)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["TexCoords_1"].append([br.readHalfFloat(), br.readHalfFloat()])
 
                         self.has_texCoords = True
@@ -199,7 +201,7 @@ class GMH2:
                     elif vertex_type == 0x606:
 
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
-                        br.readBytes(8)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["TexCoords_1"].append([br.readHalfFloat(), br.readHalfFloat()])
 
                         self.has_texCoords = True
@@ -207,7 +209,7 @@ class GMH2:
                     elif vertex_type == 0x707:
 
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
-                        br.readBytes(8)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["TexCoords_1"].append([br.readHalfFloat(), br.readHalfFloat()])
 
                         self.has_texCoords = True
@@ -226,7 +228,7 @@ class GMH2:
                     elif vertex_type == 0x0F0B:
 
                         self.vertex_buffer["TexCoords_1"].append([br.readHalfFloat(), br.readHalfFloat()])
-                        br.readBytes(4)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
 
                         self.has_texCoords = True
 
@@ -241,8 +243,7 @@ class GMH2:
 
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
                         self.vertex_buffer["TexCoords_1"].append([br.readHalfFloat(), br.readHalfFloat()])
-                        br.readBytes(4)
-
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.has_texCoords = True
 
                     elif vertex_type == 0x120E:
@@ -266,7 +267,7 @@ class GMH2:
 
                     elif vertex_type == 0x1511: 
 
-                        br.readBytes(4)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
                         br.readFloat() # Tangent/binormal
                         br.readFloat() # Tangent/binormal
@@ -287,7 +288,7 @@ class GMH2:
 
                     elif vertex_type == 0x1C18:
 
-                        br.readBytes(4)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
                         br.readFloat() # Tangent/binormal
                         br.readFloat() # Tangent/binormal
@@ -308,32 +309,32 @@ class GMH2:
 
                     elif vertex_type == 0x1E1A:
 
-                        br.readBytes(4)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
                         br.readFloat() # Tangent/binormal
                         br.readFloat() # Tangent/binormal
                         self.vertex_buffer["TexCoords_1"].append([br.readHalfFloat(), br.readHalfFloat()])
                         self.vertex_buffer["TexCoords_2"].append([br.readHalfFloat(), br.readHalfFloat()]) 
                         self.vertex_buffer["TexCoords_3"].append([br.readHalfFloat(), br.readHalfFloat()])
-                        br.readBytes(4)
+                        self.vertex_buffer["Unknown2"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
 
                         self.has_texCoords = True
 
                     elif vertex_type == 0x1F1B:
 
-                        br.readBytes(4)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
                         br.readFloat() # Tangent/binormal
                         br.readFloat() # Tangent/binormal
                         self.vertex_buffer["TexCoords_1"].append([br.readHalfFloat(), br.readHalfFloat()])
                         self.vertex_buffer["TexCoords_2"].append([br.readHalfFloat(), br.readHalfFloat()]) 
-                        br.readBytes(4)
+                        self.vertex_buffer["Unknown2"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
 
                         self.has_texCoords = True
 
                     elif vertex_type == 0x201C:
 
-                        br.readBytes(4)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
                         br.readFloat() # Tangent/binormal
                         br.readFloat() # Tangent/binormal
@@ -359,7 +360,7 @@ class GMH2:
                         self.vertex_buffer["TexCoords_1"].append([br.readHalfFloat(), br.readHalfFloat()])
                         self.vertex_buffer["TexCoords_2"].append([br.readHalfFloat(), br.readHalfFloat()]) 
                         self.vertex_buffer["TexCoords_3"].append([br.readHalfFloat(), br.readHalfFloat()])
-                        br.readBytes(4)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
 
                         self.has_texCoords = True
 
@@ -383,7 +384,7 @@ class GMH2:
 
                     elif vertex_type == 0x3C38:
 
-                        br.readBytes(4)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
                         br.readFloat() # Tangent/binormal
                         br.readFloat() # Tangent/binormal
@@ -408,7 +409,7 @@ class GMH2:
 
                     elif vertex_type == 0x4440:
 
-                        br.readBytes(8)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
                         br.readFloat() # Tangent/binormal
                         br.readFloat() # Tangent/binormal
@@ -417,13 +418,13 @@ class GMH2:
                         self.vertex_buffer["TexCoords_3"].append([br.readHalfFloat(), br.readHalfFloat()])
                         self.vertex_buffer["TexCoords_4"].append([br.readHalfFloat(), br.readHalfFloat()])
                         self.vertex_buffer["TexCoords_5"].append([br.readHalfFloat(), br.readHalfFloat()])
-                        br.readBytes(4)  
+                        self.vertex_buffer["Unknown2"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
 
                         self.has_texCoords = True
 
                     elif vertex_type == 0x4541:
 
-                        br.readBytes(8)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
                         br.readFloat() # Tangent/binormal
                         br.readFloat() # Tangent/binormal
@@ -438,7 +439,7 @@ class GMH2:
 
                     elif vertex_type == 0x524E:
 
-                        br.readBytes(8)
+                        self.vertex_buffer["Unknown"].append([br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte(), br.readUByte()])
                         self.vertex_buffer["Normals"].append(ConvertNormal_S10S11S11(br.readUInt()))
                         self.vertex_buffer["TexCoords_1"].append([br.readHalfFloat(), br.readHalfFloat()])
                         self.vertex_buffer["TexCoords_2"].append([br.readHalfFloat(), br.readHalfFloat()]) 
