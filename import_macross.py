@@ -65,7 +65,7 @@ def build_mdl_armature(mdl, file_name):
     file = bpy.context.active_object
     file.empty_display_size = 0.05
     file.rotation_euler = ( radians(90), 0, 0 )
-    file.name = file_name
+    file.name = file_name + "_model"
 
     empty_list = []
     
