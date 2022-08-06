@@ -36,36 +36,30 @@ def ToTriangle(triangleList):
         faces.append([a,b,c])
     return faces
 
-def sign_ten_bit(Input):
-    if Input < 0x200: 
-        return Input
-    else: 
-        return Input - 0x400
-
-def sign_eleven_bit(Input):
-    if Input < 0x400: 
-        return Input
-    else: 
-        return Input - 0x800
-
-def ConvertNormal_S10S11S11(integer):
-
-    normal = []
+def ConvertNormal_S10S11S11(integer, reverse=False):
     
-    """
-    normal.append(sign_ten_bit(integer & 0x3FF))
-    normal.append(sign_eleven_bit((integer >> 11) & 0x7FF))
-    normal.append(sign_eleven_bit((integer >> 22) & 0x7FF))
-    test1 = Vector(((normal[2]) / 1023, (normal[1]) / 1023, (normal[0]) / 511)).normalized()
-    """
+    p1 = (integer & 0xFFC00000) >> 22
+    p2 = (integer & 0x003FF800) >> 11
+    p3 = (integer & 0x000007FF)
 
-    element = integer & 0x3FF
-    normal.append(element / 511)
-    element = (integer >> 10) & 0x7FF
-    normal.append(element / 1023)
-    element = (integer >> 21) & 0x7FF
-    normal.append(element / 1023)
+    if p1 & 0x200:
+        r1 = -((0x200 - (p1 & 0x1FF))) / 0x1FF
+    else:
+        r1 = p1 / 0x1FF
 
-    test1 = Vector((normal[2], normal[1], normal[0])).normalized()
+    if p2 & 0x400:
+        r2 = -((0x400 - (p2 & 0x3FF))) / 0x3FF
+    else:
+        r2 = p2 / 0x3FF
 
-    return test1
+    if p3 & 0x400:
+        r3 = -((0x400 - (p3 & 0x3FF))) / 0x3FF
+    else:
+        r3 = p3 / 0x3FF
+
+    if reverse == True:
+        normal = Vector((r3, r2, r1)).normalized()
+    else:
+        normal = Vector((r1, r2, r3)).normalized()
+
+    return normal

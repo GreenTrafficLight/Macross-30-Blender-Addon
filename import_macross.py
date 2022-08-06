@@ -13,7 +13,7 @@ from .Resource import *
 
 def build_mdl_armature(mdl, file_name):
 
-    
+    """
     bpy.ops.object.add(type="ARMATURE")
     ob = bpy.context.object
     ob.name = mdl.frah.fram_list[0].name
@@ -21,7 +21,6 @@ def build_mdl_armature(mdl, file_name):
     amt = ob.data
     amt.name = mdl.frah.fram_list[0].name
 
-    """
     for fram in mdl.frah.fram_list:
 
         if fram.name != "":
@@ -62,9 +61,14 @@ def build_mdl_armature(mdl, file_name):
                 bone.tail = bones[mdl.frah.fram_list[fram.parent_index].name].head 
     """
 
-    bpy.ops.object.mode_set(mode='OBJECT')
-    
+    bpy.ops.object.empty_add(type='PLAIN_AXES')
+    file = bpy.context.active_object
+    file.empty_display_size = 0.05
+    file.rotation_euler = ( radians(90), 0, 0 )
+    file.name = file_name
 
+    empty_list = []
+    
     for fram in mdl.frah.fram_list:
 
         if fram.name != "":
@@ -73,10 +77,16 @@ def build_mdl_armature(mdl, file_name):
             empty.pass_index = fram.index
 
             if fram.parent_index == 0:
-                empty.rotation_euler = ( radians(90), 0, 0 )
+                empty.parent = file
 
             if fram.parent_index != -1 and fram.parent_index != 0:
-                empty.parent = bpy.context.scene.objects[fram.parent_index]
+                empty.parent = empty_list[fram.parent_index]
+
+            empty_list.append(empty)
+
+        else :
+
+            empty_list.append(file)
 
 def build_mdl(mdl, filepath):
 
@@ -185,10 +195,10 @@ def build_mdl(mdl, filepath):
 
 
             # Set normals
-            #mesh.use_auto_smooth = True
+            mesh.use_auto_smooth = True
 
-            #if normals != []:
-                #mesh.normals_split_custom_set_from_vertices(normals)
+            if normals != []:
+                mesh.normals_split_custom_set_from_vertices(normals)
 
             # Set material
             material = bpy.data.materials.get(mtrl.name)
@@ -235,11 +245,11 @@ def main(filepath, clear_scene):
         clearScene()
 
     file = open(filepath, 'rb')
-    file_name =  filepath.split("\\")[-1]
+    filename =  filepath.split("\\")[-1]
     br = BinaryReader(file, ">")
 
     mdl = MDL(br)
-    build_mdl_armature(mdl, os.path.splitext(file_name)[0])
+    build_mdl_armature(mdl, os.path.splitext(filename)[0])
     build_mdl(mdl, filepath)
 
     return {'FINISHED'}
