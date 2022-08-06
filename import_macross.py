@@ -11,7 +11,7 @@ from .Utilities import *
 from .Resource import *
 
 
-def build_mdl_armature(mdl, file_name):
+def build_mdl_armature(mdl, mdl_name):
 
     """
     bpy.ops.object.add(type="ARMATURE")
@@ -65,7 +65,7 @@ def build_mdl_armature(mdl, file_name):
     file = bpy.context.active_object
     file.empty_display_size = 0.05
     file.rotation_euler = ( radians(90), 0, 0 )
-    file.name = file_name + "_model"
+    file.name = mdl_name + "_model"
 
     empty_list = []
     
@@ -88,7 +88,9 @@ def build_mdl_armature(mdl, file_name):
 
             empty_list.append(file)
 
-def build_mdl(mdl, filepath):
+    return empty_list
+
+def build_mdl(mdl, filepath, mdl_name, empty_list):
 
     for atmc in mdl.atmh.atmc_list:
 
@@ -99,12 +101,9 @@ def build_mdl(mdl, filepath):
         mesh = bpy.data.meshes.new(gm2.name)
         obj = bpy.data.objects.new(gm2.name, mesh)
 
-        parent = bpy.context.scene.objects[fram.name]
+        parent = empty_list[fram.index]
 
-        if bpy.app.version >= (2, 80, 0):
-            parent.users_collection[0].objects.link(obj)
-        else:
-            parent.users_collection[0].objects.link(obj)
+        parent.users_collection[0].objects.link(obj)
 
         obj.parent = parent
 
@@ -201,9 +200,9 @@ def build_mdl(mdl, filepath):
                 mesh.normals_split_custom_set_from_vertices(normals)
 
             # Set material
-            material = bpy.data.materials.get(mtrl.name)
+            material = bpy.data.materials.get(mdl_name + "_" + mtrl.name)
             if not material:
-                material = bpy.data.materials.new(mtrl.name)
+                material = bpy.data.materials.new(mdl_name + "_" + mtrl.name)
 
                 material.use_nodes = True
                 
@@ -246,11 +245,13 @@ def main(filepath, clear_scene):
 
     file = open(filepath, 'rb')
     filename =  filepath.split("\\")[-1]
+    mdl_name = os.path.splitext(filename)[0]
+    
     br = BinaryReader(file, ">")
 
     mdl = MDL(br)
-    build_mdl_armature(mdl, os.path.splitext(filename)[0])
-    build_mdl(mdl, filepath)
+    empty_list = build_mdl_armature(mdl, mdl_name)
+    build_mdl(mdl, filepath, mdl_name, empty_list)
 
     return {'FINISHED'}
 
