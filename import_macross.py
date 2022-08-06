@@ -145,17 +145,23 @@ def build_mdl(mdl, filepath, mdl_name, empty_list):
             if gmpt.has_texCoords == True:
 
                 if gmpt.vertex_buffer["TexCoords_1"] != []:
-                    uv_layer1 = bm.loops.layers.uv.verify()
+                    uv_name = "UV1Map"
+                    uv_layer1 = bm.loops.layers.uv.get(uv_name) or bm.loops.layers.uv.new(uv_name)
                 if gmpt.vertex_buffer["TexCoords_2"] != []:
-                    uv_layer2 = bm.loops.layers.uv.verify()                
+                    uv_name = "UV2Map"
+                    uv_layer2 = bm.loops.layers.uv.get(uv_name) or bm.loops.layers.uv.new(uv_name)             
                 if gmpt.vertex_buffer["TexCoords_3"] != []:
-                    uv_layer3 = bm.loops.layers.uv.verify()
+                    uv_name = "UV3Map"
+                    uv_layer3 = bm.loops.layers.uv.get(uv_name) or bm.loops.layers.uv.new(uv_name)
                 if gmpt.vertex_buffer["TexCoords_4"] != []:
-                    uv_layer4 = bm.loops.layers.uv.verify()
+                    uv_name = "UV4Map"
+                    uv_layer4 = bm.loops.layers.uv.get(uv_name) or bm.loops.layers.uv.new(uv_name)
                 if gmpt.vertex_buffer["TexCoords_5"] != []:
-                    uv_layer5 = bm.loops.layers.uv.verify()
+                    uv_name = "UV5Map"
+                    uv_layer5 = bm.loops.layers.uv.get(uv_name) or bm.loops.layers.uv.new(uv_name)
                 if gmpt.vertex_buffer["TexCoords_6"] != []:
-                    uv_layer6 = bm.loops.layers.uv.verify()
+                    uv_name = "UV6Map"
+                    uv_layer6 = bm.loops.layers.uv.get(uv_name) or bm.loops.layers.uv.new(uv_name)
 
                 for f in bm.faces:
                     
