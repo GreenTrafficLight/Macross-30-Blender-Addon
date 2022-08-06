@@ -1,3 +1,5 @@
+
+
 class FRAH:
     """
     Frame(?) Header Informations\n
@@ -28,7 +30,7 @@ class FRAH:
 
             self.fram_list.append(FRAH.FRAM(br))
 
-        br.seek(position + self.size, 0) # Scale ?
+        br.seek(position + self.size, 0)
 
     class FRAM :
         """
@@ -46,11 +48,16 @@ class FRAH:
 
             self.index = 0
             self.parent_index = 0
+            self.child_index = 0
+            self.sibling_index = 0
 
             self.translation = None
             self.rotation = None
             self.quaternion = None
             self.scale = None
+
+            self.unknown = None
+            self.unknown2 = None
 
             self.read(br)
 
@@ -63,13 +70,14 @@ class FRAH:
 
             position = br.tell()
 
-            self.index = br.readInt() # unknown index
-            self.name = br.bytesToString(br.readBytes(36)).replace("\0", "") # 36 ?
-            self.parent_index = br.readInt() # unknown index
-            br.readInt() # unknown index
-            br.readInt() # unknown index
+            self.index = br.readInt()
+            self.name = br.bytesToString(br.readBytes(36)).replace("\0", "")
+            
+            self.parent_index = br.readInt()
+            self.child_index = br.readInt()
+            self.sibling_index = br.readInt()
 
-            br.readBytes(16) # Quaternion ?
-            br.readBytes(12) # Scale ?
+            self.unknown = (br.readFloat(), br.readFloat(), br.readFloat(), br.readFloat()) # Quaternion ?
+            self.unknown2 = (br.readFloat(), br.readFloat(), br.readFloat()) # Scale ?
 
-            br.seek(position + self.size, 0) # Scale ?
+            br.seek(position + self.size, 0)
